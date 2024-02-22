@@ -8,20 +8,53 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.beust.jcommander.Parameter;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class FlipKart {
  
 	static WebDriver driver;
+//	ChromeOptions chomeoptions = new ChromeOptions();
+//	EdgeOptions edgeoptions = new EdgeOptions();
+//	FirefoxOptions firefoxoptions = new FirefoxOptions();
+	
+	
+	@Parameters("browser")
+	@BeforeTest
+	private void BeforeTest( String browser) 
+	{
+		if (browser.equalsIgnoreCase("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver();
+			System.out.println("firefox is launched");		
+		}
+		else if (browser.equalsIgnoreCase("chrome")) {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+			System.out.println("chrome is launched");	
+					}
+		else if (browser.equalsIgnoreCase("edge")) {
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
+			System.out.println("edge is launched");	
+					}		
+	}
 	@BeforeClass
 	private void beforeclass() {
-		WebDriverManager.chromedriver().setup();
-		 driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://www.mycarhelpline.com/");
@@ -76,38 +109,14 @@ public class FlipKart {
 		interst_rate.sendKeys("10");
 		WebElement submitebutton = driver.findElement(By.xpath("(//input[@name='Submit'])[1]"));
 		submitebutton.click();
+		WebElement Resetbutton = driver.findElement(By.xpath("//input[@value='Reset']"));
+		Resetbutton.click();;
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	@AfterClass
 	private void afterclass() {
-	//driver.quit();
+	driver.quit();
 
 	}
 }

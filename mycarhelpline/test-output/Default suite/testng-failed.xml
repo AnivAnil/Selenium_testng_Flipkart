@@ -5,6 +5,7 @@
     <classes>
       <class name="TestNG.FlipKart">
         <methods>
+          <include name="BeforeTest"/>
           <include name="afterclass"/>
           <include name="Calculation"/>
           <include name="beforeclass"/>
